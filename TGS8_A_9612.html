@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body class="bg-dark">
+    <div id="app">
+        <div class="col-4 justify-content-center mx-auto h-100" style="overflow-y: auto;max-height: 370px;">
+            <div v-for="(todo,index) in todos" :key="index">
+                <div class="card my-2">
+                    <div class="card-body">
+                        <span class="float-right"><button class="btn btn-sm" @click="hapus(index)">x</button></span>
+                        <span v-if="todo.status == 'urgent'" class="badge badge-light text-danger">{{ todo.status }}</span>
+                        <span v-else-if="todo.status == 'normal'" class="badge badge-light text-primary">{{ todo.status }}</span>
+                        <span v-else-if="todo.status == 'not important'" class="badge badge-light text-success">{{ todo.status }}</span>
+                        <br>
+                        <h4>{{ todo.subjects }}</h4>
+                        <p>{{ todo.notes }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 justify-content-center mx-auto mt-4">
+            <div class="card p-4">
+                <div class="form-group">
+                    <label for="subjects"><strong>Subject</strong> </label>
+                    <input type="text"  class="form-control" id="subjects" >
+                </div>
+                <div class="form-group">
+                    <label for="status"><strong>Status</strong> </label>
+                    <select name="status"  id="status" class="form-control">
+                        <option value="urgent">Urgent</option>
+                        <option value="normal">Normal</option>
+                        <option value="not important">Not Important</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="catatan"><strong>a brief note</strong> </label>
+                    <textarea class="form-control" id="notes"></textarea>
+                </div>
+                <div>
+                    <button class="btn btn-dark" @click="reset">Reset</button>
+                    <button class="btn btn-primary" @click="save">Save</button>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-5 text-warning">
+            {{ `${mhs.nama} | ${mhs.npm} | ${mhs.kelas}` }}
+        </footer>
+    </div>
+  
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            mhs: {
+                nama:'Wesly Tionata',
+                npm: '180709612',
+                kelas: 'A',
+            },
+            todos:[
+                
+            ],
+        },
+        methods: {
+            save() {
+                let notes = document.getElementById('notes');
+                let subjects = document.getElementById('subjects');
+                let status = document.getElementById('status');
+                
+                let todo = {
+                    subjects : subjects.value,
+                    status : status.value,
+                    notes : notes.value,
+                }
+                document.getElementById('notes').value="";
+                document.getElementById('subjects').value="";
+                document.getElementById('status').value="";
+                this.todos.push(todo);
+                console.log(this.todos);
+            },
+            reset(){
+                document.getElementById('notes').value="";
+                document.getElementById('subjects').value="";
+                document.getElementById('status').value="";
+            },
+            hapus(index){
+                this.todos.splice(index,1);
+            },
+        },
+    });
+</script>
+</html>
